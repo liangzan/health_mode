@@ -1,0 +1,24 @@
+## MAC OS
+.DS_Store
+
+## TEXTMATE
+*.tmproj
+tmtags
+
+## EMACS
+*~
+\#*
+.\#*
+
+## VIM
+*.swp
+
+## PROJECT::GENERAL
+db/*.sqlite3
+log/*.log
+tmp
+.sass-cache
+
+## PROJECT::SPECIFIC
+.rvmrc
+
