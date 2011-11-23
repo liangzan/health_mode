@@ -16,14 +16,13 @@ class BroadcastModeTest < Test::Unit::TestCase
     assert last_response.ok?
   end
 
-
   # cpu load
   def test_load
     LoadService.stubs(:system_output).returns(" 11:37:37 up  1:59,  1 user,  load average: 0.02, 0.05, 0.01")
     get "/load.json"
     load_average = JSON.parse last_response.body
-    assert_equal load_average["one_minute"], "0.02"
-    assert_equal load_average["five_minutes"], "0.05"
-    assert_equal load_average["fifteen_minutes"], "0.01"
+    assert_equal load_average["load_one"], "0.02"
+    assert_equal load_average["load_five"], "0.05"
+    assert_equal load_average["load_fifteen"], "0.01"
   end
 end

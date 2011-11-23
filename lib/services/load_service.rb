@@ -2,11 +2,13 @@ class LoadService < Service
   class << self
     def current_state
       {
-        "one_minute" => one_minute_load_average,
-        "five_minutes" => five_minutes_load_average,
-        "fifteen_minutes" => fifteen_minutes_load_average
+        "load_one" => one_minute_load_average,
+        "load_five" => five_minutes_load_average,
+        "load_fifteen" => fifteen_minutes_load_average
       }
     end
+
+    protected
 
     def one_minute_load_average
       system_output_match[1]
@@ -19,8 +21,6 @@ class LoadService < Service
     def fifteen_minutes_load_average
       system_output_match[3]
     end
-
-    protected
 
     def system_output
       `uptime`
