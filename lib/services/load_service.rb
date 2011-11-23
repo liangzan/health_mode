@@ -11,15 +11,15 @@ class LoadService < Service
     protected
 
     def one_minute_load_average
-      system_output_match[1]
+      system_output_match[1].to_f
     end
 
     def five_minutes_load_average
-      system_output_match[2]
+      system_output_match[2].to_f
     end
 
     def fifteen_minutes_load_average
-      system_output_match[3]
+      system_output_match[3].to_f
     end
 
     def system_output
