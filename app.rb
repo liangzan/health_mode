@@ -12,3 +12,8 @@ get "/load.json" do
   content_type :json
   LoadService.current_state.to_json
 end
+
+get "/memory.json" do
+  content_type :json
+  MemoryService.current_state.to_json
+end
