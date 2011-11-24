@@ -17,3 +17,8 @@ get "/memory.json" do
   content_type :json
   MemoryService.current_state.to_json
 end
+
+get "/swap.json" do
+  content_type :json
+  SwapService.current_state.to_json
+end

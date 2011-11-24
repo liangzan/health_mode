@@ -46,4 +46,19 @@ Swap:            0          0          0
     assert_equal memory_usage["mem_free_normalized"], 1205608
   end
 
+  # swap usage
+  def test_swap
+    SwapService.stubs(:system_output).returns <<-sys_output
+             total       used       free     shared    buffers     cached
+Mem:       2004104    1887516     116588          0     419368     669652
+-/+ buffers/cache:     798496    1205608
+Swap:            0          0          0
+    sys_output
+    get "/swap.json"
+    swap_usage = JSON.parse last_response.body
+    assert_equal swap_usage["swap_total"], 0
+    assert_equal swap_usage["swap_used"], 0
+    assert_equal swap_usage["swap_free"], 0
+  end
+
 end
