@@ -81,5 +81,15 @@ total                221295776  96056396 114201328      46%
     assert_equal disk_usage["disk_percentage_capacity"], 46
   end
 
+  # current users
+  def test_number_of_users
+    UserMetric.stubs(:get_system_metrics).returns <<-sys_output
+zan
+# users=10
+    sys_output
+    get "/users.json"
+    users_usage = JSON.parse last_response.body
+    assert_equal users_usage["users_num"], 10
+  end
 
 end
