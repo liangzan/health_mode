@@ -1,4 +1,4 @@
-class LoadService < Service
+class LoadMetric < Metric
   class << self
     def current_state
       {

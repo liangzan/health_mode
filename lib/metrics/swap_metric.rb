@@ -1,4 +1,4 @@
-class SwapService < Service
+class SwapMetric < Metric
   class << self
     def current_state
       {

@@ -1,3 +1,3 @@
-require File.expand_path(File.dirname(__FILE__) + '/service')
-Dir[File.dirname(__FILE__) + "/services/*.rb"].each {|file| require file }
+require File.expand_path(File.dirname(__FILE__) + '/metric')
+Dir[File.dirname(__FILE__) + "/metrics/*.rb"].each {|file| require file }
 

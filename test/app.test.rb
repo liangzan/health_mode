@@ -18,7 +18,7 @@ class BroadcastModeTest < Test::Unit::TestCase
 
   # cpu load
   def test_load
-    LoadService.stubs(:system_output).returns(" 11:37:37 up  1:59,  1 user,  load average: 0.02, 0.05, 0.01")
+    LoadMetric.stubs(:system_output).returns(" 11:37:37 up  1:59,  1 user,  load average: 0.02, 0.05, 0.01")
     get "/load.json"
     load_average = JSON.parse last_response.body
     assert_equal load_average["load_one"], 0.02
@@ -28,7 +28,7 @@ class BroadcastModeTest < Test::Unit::TestCase
 
   # memory
   def test_memory
-    MemoryService.stubs(:system_output).returns <<-sys_output
+    MemoryMetric.stubs(:system_output).returns <<-sys_output
              total       used       free     shared    buffers     cached
 Mem:       2004104    1887516     116588          0     419368     669652
 -/+ buffers/cache:     798496    1205608
@@ -48,7 +48,7 @@ Swap:            0          0          0
 
   # swap usage
   def test_swap
-    SwapService.stubs(:system_output).returns <<-sys_output
+    SwapMetric.stubs(:system_output).returns <<-sys_output
              total       used       free     shared    buffers     cached
 Mem:       2004104    1887516     116588          0     419368     669652
 -/+ buffers/cache:     798496    1205608

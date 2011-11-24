@@ -1,4 +1,4 @@
-class MemoryService < Service
+class MemoryMetric < Metric
   class << self
     def current_state
       {

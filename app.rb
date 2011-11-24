@@ -10,15 +10,15 @@ end
 
 get "/load.json" do
   content_type :json
-  LoadService.current_state.to_json
+  LoadMetric.current_state.to_json
 end
 
 get "/memory.json" do
   content_type :json
-  MemoryService.current_state.to_json
+  MemoryMetric.current_state.to_json
 end
 
 get "/swap.json" do
   content_type :json
-  SwapService.current_state.to_json
+  SwapMetric.current_state.to_json
 end
