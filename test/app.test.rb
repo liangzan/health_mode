@@ -63,7 +63,7 @@ Swap:            0          0          0
 
   # disk space
   def test_disk_usage
-    DiskMetric.stubs(:system_output).returns <<-sys_output
+    DiskMetric.stubs(:get_system_metrics).returns <<-sys_output
 Filesystem         1024-blocks      Used Available Capacity Mounted on
 /dev/sda2             19222656  15440068   2806052      85% /
 none                    995424       728    994696       1% /dev

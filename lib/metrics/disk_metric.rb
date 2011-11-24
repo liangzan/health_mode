@@ -1,42 +1,46 @@
 class DiskMetric < Metric
   class << self
+    attr_accessor :system_metrics,
+    :total_disk_space,
+    :used_disk_space,
+    :free_disk_space,
+    :percentage_capacity_disk_space
+
     def current_state
+      refresh_state
       {
-        "disk_total" => total_disk_space,
-        "disk_used" => used_disk_space,
-        "disk_free" => free_disk_space,
-        "disk_percentage_capacity" => percentage_capacity_disk_space
+        "disk_total" => @total_disk_space,
+        "disk_used" => @used_disk_space,
+        "disk_free" => @free_disk_space,
+        "disk_percentage_capacity" => @percentage_capacity_disk_space
       }
     end
 
     protected
 
-    def total_disk_space
-      system_output_match[1].to_i
+    def refresh_state
+      set_system_metrics
+      match_system_metrics
     end
 
-    def used_disk_space
-      system_output_match[2].to_i
-    end
-
-    def free_disk_space
-      system_output_match[3].to_i
-    end
-
-    def percentage_capacity_disk_space
-      system_output_match[4].to_i
-    end
-
-    def system_output
+    def get_system_metrics
       `df --total -P --sync`
     end
 
-    def output_regexp
+    def set_system_metrics
+      @system_metrics = get_system_metrics
+    end
+
+    def metrics_regexp
       /total\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/
     end
 
-    def system_output_match
-      output_regexp.match(system_output)
+    def match_system_metrics
+      metrics_match = metrics_regexp.match(@system_metrics)
+      @total_disk_space = metrics_match[1].to_i
+      @used_disk_space = metrics_match[2].to_i
+      @free_disk_space = metrics_match[3].to_i
+      @percentage_capacity_disk_space = metrics_match[4].to_i
     end
   end
 end
