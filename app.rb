@@ -22,3 +22,8 @@ get "/swap.json" do
   content_type :json
   SwapMetric.current_state.to_json
 end
+
+get "/disk.json" do
+  content_type :json
+  DiskMetric.current_state.to_json
+end

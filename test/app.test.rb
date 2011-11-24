@@ -61,4 +61,25 @@ Swap:            0          0          0
     assert_equal swap_usage["swap_free"], 0
   end
 
+  # disk space
+  def test_disk_usage
+    DiskMetric.stubs(:system_output).returns <<-sys_output
+Filesystem         1024-blocks      Used Available Capacity Mounted on
+/dev/sda2             19222656  15440068   2806052      85% /
+none                    995424       728    994696       1% /dev
+none                   1002052      1096   1000956       1% /dev/shm
+none                   1002052       132   1001920       1% /var/run
+none                   1002052         0   1002052       0% /var/lock
+/dev/sda4            198071540  80614372 107395652      43% /home
+total                221295776  96056396 114201328      46%
+    sys_output
+    get "/disk.json"
+    disk_usage = JSON.parse last_response.body
+    assert_equal disk_usage["disk_total"], 221295776
+    assert_equal disk_usage["disk_used"], 96056396
+    assert_equal disk_usage["disk_free"], 114201328
+    assert_equal disk_usage["disk_percentage_capacity"], 46
+  end
+
+
 end
