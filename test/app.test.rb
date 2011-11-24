@@ -18,12 +18,12 @@ class BroadcastModeTest < Test::Unit::TestCase
 
   # cpu load
   def test_load
-    LoadMetric.stubs(:system_output).returns(" 11:37:37 up  1:59,  1 user,  load average: 0.02, 0.05, 0.01")
+    LoadMetric.stubs(:system_output).returns("0.18 0.14 0.10 1/419 6130")
     get "/load.json"
     load_average = JSON.parse last_response.body
-    assert_equal load_average["load_one"], 0.02
-    assert_equal load_average["load_five"], 0.05
-    assert_equal load_average["load_fifteen"], 0.01
+    assert_equal load_average["load_one"], 0.18
+    assert_equal load_average["load_five"], 0.14
+    assert_equal load_average["load_fifteen"], 0.10
   end
 
   # memory

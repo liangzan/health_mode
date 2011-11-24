@@ -23,11 +23,11 @@ class LoadMetric < Metric
     end
 
     def system_output
-      `uptime`
+      `cat /proc/loadavg`
     end
 
     def output_regexp
-      /load\saverage\:\s(\d+\.\d+),\s(\d+\.\d+),\s(\d+\.\d+)/
+      /^(\d+\.\d+)\s+(\d+\.\d+)\s+(\d+\.\d+)\s+/
     end
 
     def system_output_match
