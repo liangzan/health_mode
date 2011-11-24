@@ -28,7 +28,7 @@ class BroadcastModeTest < Test::Unit::TestCase
 
   # memory
   def test_memory
-    MemoryMetric.stubs(:system_output).returns <<-sys_output
+    MemoryMetric.stubs(:get_system_metrics).returns <<-sys_output
              total       used       free     shared    buffers     cached
 Mem:       2004104    1887516     116588          0     419368     669652
 -/+ buffers/cache:     798496    1205608
