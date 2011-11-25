@@ -92,4 +92,21 @@ zan
     assert_equal users_usage["users_num"], 10
   end
 
+  def test_cpu_stat
+    CPUMetric.stubs(:get_system_metrics).returns <<-sys_output
+Linux 2.6.38-12-generic (zan-thinkpad)  25/11/2011      _i686_  (2 CPU)
+
+avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+          11.48    0.32    4.38    6.02    0.00   77.80
+    sys_output
+    get "/cpu.json"
+    cpu_usage = JSON.parse last_response.body
+    assert_equal cpu_usage["cpu_user"], 11.48
+    assert_equal cpu_usage["cpu_nice"], 0.32
+    assert_equal cpu_usage["cpu_system"], 4.38
+    assert_equal cpu_usage["cpu_iowait"], 6.02
+    assert_equal cpu_usage["cpu_steal"], 0.00
+    assert_equal cpu_usage["cpu_idle"], 77.80
+  end
+
 end

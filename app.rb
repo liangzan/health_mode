@@ -32,3 +32,8 @@ get "/users.json" do
   content_type :json
   UserMetric.current_state.to_json
 end
+
+get "/cpu.json" do
+  content_type :json
+  CPUMetric.current_state.to_json
+end
