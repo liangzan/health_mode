@@ -23,9 +23,14 @@ get "/swap.json" do
   SwapMetric.current_state.to_json
 end
 
-get "/disk.json" do
+get "/disk_space.json" do
   content_type :json
   DiskSpaceMetric.current_state.to_json
+end
+
+get "/disk_io.json" do
+  content_type :json
+  DiskIOMetric.current_state.to_json
 end
 
 get "/users.json" do

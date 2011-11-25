@@ -73,7 +73,7 @@ none                   1002052         0   1002052       0% /var/lock
 /dev/sda4            198071540  80614372 107395652      43% /home
 total                221295776  96056396 114201328      46%
     sys_output
-    get "/disk.json"
+    get "/disk_space.json"
     disk_usage = JSON.parse last_response.body
     assert_equal disk_usage["disk_total"], 221295776
     assert_equal disk_usage["disk_used"], 96056396
@@ -107,6 +107,21 @@ avg-cpu:  %user   %nice %system %iowait  %steal   %idle
     assert_equal cpu_usage["cpu_iowait"], 6.02
     assert_equal cpu_usage["cpu_steal"], 0.00
     assert_equal cpu_usage["cpu_idle"], 77.80
+  end
+
+  def test_disk_io_stat
+    DiskIOMetric.stubs(:get_system_metrics).returns <<-sys_output
+Linux 2.6.38-12-generic (zan-thinkpad)  25/11/2011      _i686_  (2 CPU)
+
+Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
+sda              22.43       765.02        65.49    1055856      90384
+    sys_output
+    get "/disk_io.json"
+    disk_io_usage = JSON.parse last_response.body
+    assert_equal disk_io_usage["disk_read_per_s"], 765.02
+    assert_equal disk_io_usage["disk_write_per_s"], 65.49
+    assert_equal disk_io_usage["disk_read"], 1055856
+    assert_equal disk_io_usage["disk_write"], 90384
   end
 
 end
