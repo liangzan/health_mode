@@ -124,4 +124,12 @@ sda              22.43       765.02        65.49    1055856      90384
     assert_equal disk_io_usage["disk_write"], 90384
   end
 
+  # processes
+  def test_processes
+    ProcessMetric.stubs(:get_system_metrics).returns("0.18 0.14 0.10 1/419 6130")
+    get "/process.json"
+    process_usage = JSON.parse last_response.body
+    assert_equal process_usage["proc_run"], 1
+    assert_equal process_usage["proc_total"], 419
+  end
 end

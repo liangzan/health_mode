@@ -42,3 +42,8 @@ get "/cpu.json" do
   content_type :json
   CPUMetric.current_state.to_json
 end
+
+get "/process.json" do
+  content_type :json
+  ProcessMetric.current_state.to_json
+end
