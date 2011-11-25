@@ -25,7 +25,7 @@ end
 
 get "/disk.json" do
   content_type :json
-  DiskMetric.current_state.to_json
+  DiskSpaceMetric.current_state.to_json
 end
 
 get "/users.json" do

@@ -1,4 +1,4 @@
-class DiskMetric < Metric
+class DiskSpaceMetric < Metric
   class << self
     attr_accessor :system_metrics,
     :total_disk_space,
