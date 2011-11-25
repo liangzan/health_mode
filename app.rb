@@ -47,3 +47,8 @@ get "/process.json" do
   content_type :json
   ProcessMetric.current_state.to_json
 end
+
+get "/network_io.json" do
+  content_type :json
+  NetworkIOMetric.current_state.to_json
+end

@@ -10,13 +10,11 @@ class BroadcastModeTest < Test::Unit::TestCase
     Sinatra::Application
   end
 
-  # index page
   def test_index
     get "/"
     assert last_response.ok?
   end
 
-  # cpu load
   def test_load
     LoadMetric.stubs(:get_system_metrics).returns("0.18 0.14 0.10 1/419 6130")
     get "/load.json"
@@ -26,7 +24,6 @@ class BroadcastModeTest < Test::Unit::TestCase
     assert_equal load_average["load_fifteen"], 0.10
   end
 
-  # memory
   def test_memory
     MemoryMetric.stubs(:get_system_metrics).returns <<-sys_output
              total       used       free     shared    buffers     cached
@@ -46,7 +43,6 @@ Swap:            0          0          0
     assert_equal memory_usage["mem_free_normalized"], 1205608
   end
 
-  # swap usage
   def test_swap
     SwapMetric.stubs(:get_system_metrics).returns <<-sys_output
              total       used       free     shared    buffers     cached
@@ -61,7 +57,6 @@ Swap:            0          0          0
     assert_equal swap_usage["swap_free"], 0
   end
 
-  # disk space
   def test_disk_usage
     DiskSpaceMetric.stubs(:get_system_metrics).returns <<-sys_output
 Filesystem         1024-blocks      Used Available Capacity Mounted on
@@ -81,7 +76,6 @@ total                221295776  96056396 114201328      46%
     assert_equal disk_usage["disk_percentage_capacity"], 46
   end
 
-  # current users
   def test_number_of_users
     UserMetric.stubs(:get_system_metrics).returns <<-sys_output
 zan
@@ -124,12 +118,35 @@ sda              22.43       765.02        65.49    1055856      90384
     assert_equal disk_io_usage["disk_write"], 90384
   end
 
-  # processes
   def test_processes
     ProcessMetric.stubs(:get_system_metrics).returns("0.18 0.14 0.10 1/419 6130")
     get "/process.json"
     process_usage = JSON.parse last_response.body
     assert_equal process_usage["proc_run"], 1
     assert_equal process_usage["proc_total"], 419
+  end
+
+  def test_network_io
+    NetworkIOMetric.stubs(:get_previous_system_metrics).returns <<-sys_output
+Inter-|   Receive                                                |  Transmit
+ face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+    lo:  430741    2815    0    0    0     0          0         0   430741    2815    0    0    0     0       0          0
+  eth0:       0       0    0    0    0     0          0         0        0       0    0    0    0     0       0          0
+ wlan0: 212395394  173050    0    0    0     0          0         0 15434201  120532    0    0    0     0       0          0
+    sys_output
+
+    NetworkIOMetric.stubs(:get_current_system_metrics).returns <<-sys_output
+Inter-|   Receive                                                |  Transmit
+ face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+    lo:  430746    2815    0    0    0     0          0         0   430741    2815    0    0    0     0       0          0
+  eth0:       0       0    0    0    0     0          0         0        0       0    0    0    0     0       0          0
+ wlan0: 212395399  173060    0    0    0     0          0         0 15434221  120533    0    0    0     0       0          0
+    sys_output
+    get "/network_io.json"
+    network_io_usage = JSON.parse last_response.body
+    assert_equal network_io_usage["bytes_in"], 10
+    assert_equal network_io_usage["bytes_out"], 20
+    assert_equal network_io_usage["packets_in"], 10
+    assert_equal network_io_usage["packets_out"], 1
   end
 end
