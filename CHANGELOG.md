@@ -9,3 +9,7 @@ Initial commit
 Basic Sinatra app working
   1. Index route ready
   2. Load service ready
+
+## 0.1.0 (25 Nov 2011)
+
+Basic metrics ready
