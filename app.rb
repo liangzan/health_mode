@@ -5,7 +5,7 @@ require "json"
 require File.expand_path(File.dirname(__FILE__) + '/lib/broadcast_mode')
 
 get "/" do
-  "Hello Broadcast Mode"
+  erb :index
 end
 
 get "/load.json" do
