@@ -149,4 +149,14 @@ Inter-|   Receive                                                |  Transmit
     assert_equal network_io_usage["packets_in"], 10
     assert_equal network_io_usage["packets_out"], 1
   end
+
+  def test_authentication
+    BroadcastMode::Authentication.stubs(:from_authorized_host?).returns(true)
+    get "/"
+    assert_not_equal last_response.body, 'Unauthorized request'
+
+    BroadcastMode::Authentication.stubs(:from_authorized_host?).returns(false)
+    get "/"
+    assert_equal last_response.body, 'Unauthorized request'
+  end
 end

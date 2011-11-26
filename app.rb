@@ -2,10 +2,22 @@ require "rubygems"
 require "bundler/setup"
 require "sinatra"
 require "json"
-require File.expand_path(File.dirname(__FILE__) + '/lib/broadcast_mode')
+$:.unshift (File.dirname(__FILE__) + '/lib')
+require 'broadcast_mode'
+require 'authentication'
+
+before do
+  if !BroadcastMode::Authentication.from_authorized_host?(request)
+    request.path_info = "/unauthorized"
+  end
+end
 
 get "/" do
   erb :index
+end
+
+get "/unauthorized" do
+  'Unauthorized request'
 end
 
 get "/load.json" do
