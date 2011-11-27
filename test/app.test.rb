@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/../app')
+require File.expand_path(File.dirname(__FILE__) + '/../lib/broadcast_mode')
 require 'test/unit'
 require 'rack/test'
 require 'mocha'
@@ -7,7 +7,7 @@ class BroadcastModeTest < Test::Unit::TestCase
   include Rack::Test::Methods
 
   def app
-    Sinatra::Application
+    BroadcastMode::Agent.new
   end
 
   def test_index
