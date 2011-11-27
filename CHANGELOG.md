@@ -13,3 +13,7 @@ Basic Sinatra app working
 ## 0.1.0 (25 Nov 2011)
 
 Basic metrics ready
+
+## 0.1.1 (27 Nov 2011)
+
+Shifing to use modular style
