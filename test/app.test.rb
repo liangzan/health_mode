@@ -16,7 +16,7 @@ class BroadcastModeTest < Test::Unit::TestCase
   end
 
   def test_load
-    LoadMetric.stubs(:get_system_metrics).returns("0.18 0.14 0.10 1/419 6130")
+    BroadcastMode::LoadMetric.stubs(:get_system_metrics).returns("0.18 0.14 0.10 1/419 6130")
     get "/load.json"
     load_average = JSON.parse last_response.body
     assert_equal load_average["load_one"], 0.18
@@ -25,7 +25,7 @@ class BroadcastModeTest < Test::Unit::TestCase
   end
 
   def test_memory
-    MemoryMetric.stubs(:get_system_metrics).returns <<-sys_output
+    BroadcastMode::MemoryMetric.stubs(:get_system_metrics).returns <<-sys_output
              total       used       free     shared    buffers     cached
 Mem:       2004104    1887516     116588          0     419368     669652
 -/+ buffers/cache:     798496    1205608
@@ -44,7 +44,7 @@ Swap:            0          0          0
   end
 
   def test_swap
-    SwapMetric.stubs(:get_system_metrics).returns <<-sys_output
+    BroadcastMode::SwapMetric.stubs(:get_system_metrics).returns <<-sys_output
              total       used       free     shared    buffers     cached
 Mem:       2004104    1887516     116588          0     419368     669652
 -/+ buffers/cache:     798496    1205608
@@ -58,7 +58,7 @@ Swap:            0          0          0
   end
 
   def test_disk_usage
-    DiskSpaceMetric.stubs(:get_system_metrics).returns <<-sys_output
+    BroadcastMode::DiskSpaceMetric.stubs(:get_system_metrics).returns <<-sys_output
 Filesystem         1024-blocks      Used Available Capacity Mounted on
 /dev/sda2             19222656  15440068   2806052      85% /
 none                    995424       728    994696       1% /dev
@@ -77,7 +77,7 @@ total                221295776  96056396 114201328      46%
   end
 
   def test_number_of_users
-    UserMetric.stubs(:get_system_metrics).returns <<-sys_output
+    BroadcastMode::UserMetric.stubs(:get_system_metrics).returns <<-sys_output
 zan
 # users=10
     sys_output
@@ -87,7 +87,7 @@ zan
   end
 
   def test_cpu_stat
-    CPUMetric.stubs(:get_system_metrics).returns <<-sys_output
+    BroadcastMode::CPUMetric.stubs(:get_system_metrics).returns <<-sys_output
 Linux 2.6.38-12-generic (zan-thinkpad)  25/11/2011      _i686_  (2 CPU)
 
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
@@ -104,7 +104,7 @@ avg-cpu:  %user   %nice %system %iowait  %steal   %idle
   end
 
   def test_disk_io_stat
-    DiskIOMetric.stubs(:get_system_metrics).returns <<-sys_output
+    BroadcastMode::DiskIOMetric.stubs(:get_system_metrics).returns <<-sys_output
 Linux 2.6.38-12-generic (zan-thinkpad)  25/11/2011      _i686_  (2 CPU)
 
 Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
@@ -119,7 +119,7 @@ sda              22.43       765.02        65.49    1055856      90384
   end
 
   def test_processes
-    ProcessMetric.stubs(:get_system_metrics).returns("0.18 0.14 0.10 1/419 6130")
+    BroadcastMode::ProcessMetric.stubs(:get_system_metrics).returns("0.18 0.14 0.10 1/419 6130")
     get "/process.json"
     process_usage = JSON.parse last_response.body
     assert_equal process_usage["proc_run"], 1
@@ -127,7 +127,7 @@ sda              22.43       765.02        65.49    1055856      90384
   end
 
   def test_network_io
-    NetworkIOMetric.stubs(:get_previous_system_metrics).returns <<-sys_output
+    BroadcastMode::NetworkIOMetric.stubs(:get_previous_system_metrics).returns <<-sys_output
 Inter-|   Receive                                                |  Transmit
  face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
     lo:  430741    2815    0    0    0     0          0         0   430741    2815    0    0    0     0       0          0
@@ -135,7 +135,7 @@ Inter-|   Receive                                                |  Transmit
  wlan0: 212395394  173050    0    0    0     0          0         0 15434201  120532    0    0    0     0       0          0
     sys_output
 
-    NetworkIOMetric.stubs(:get_current_system_metrics).returns <<-sys_output
+    BroadcastMode::NetworkIOMetric.stubs(:get_current_system_metrics).returns <<-sys_output
 Inter-|   Receive                                                |  Transmit
  face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
     lo:  430746    2815    0    0    0     0          0         0   430741    2815    0    0    0     0       0          0
