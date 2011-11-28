@@ -1,5 +1,5 @@
-module BroadcastMode
-  class DiskIOMetric < BroadcastMode::Metric
+module HealthMode
+  class DiskIOMetric < HealthMode::Metric
     class << self
       attr_accessor :system_metrics,
       :disk_read_per_s,

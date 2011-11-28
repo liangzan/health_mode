@@ -1,5 +1,5 @@
-module BroadcastMode
-  class NetworkIOMetric < BroadcastMode::Metric
+module HealthMode
+  class NetworkIOMetric < HealthMode::Metric
     class << self
       attr_accessor :curr_system_metrics,
       :prev_system_metrics,

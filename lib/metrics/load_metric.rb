@@ -1,5 +1,5 @@
-module BroadcastMode
-  class LoadMetric < BroadcastMode::Metric
+module HealthMode
+  class LoadMetric < HealthMode::Metric
     class << self
       attr_accessor :system_metrics,
       :one_minute_load_average,

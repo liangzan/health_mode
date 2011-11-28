@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "bundler/setup"
+require File.expand_path(File.dirname(__FILE__) + '/../lib/health_mode')
+require 'vegas'
+
+Vegas::Runner.new(HealthMode::Agent, 'health-mode-agent')

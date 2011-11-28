@@ -1,5 +1,5 @@
-module BroadcastMode
-  class CPUMetric < BroadcastMode::Metric
+module HealthMode
+  class CPUMetric < HealthMode::Metric
     class << self
       attr_accessor :system_metrics,
       :cpu_user,

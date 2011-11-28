@@ -1,13 +1,13 @@
-require File.expand_path(File.dirname(__FILE__) + '/../lib/broadcast_mode')
+require File.expand_path(File.dirname(__FILE__) + '/../lib/health_mode')
 require 'test/unit'
 require 'rack/test'
 require 'mocha'
 
-class BroadcastModeTest < Test::Unit::TestCase
+class HealthModeTest < Test::Unit::TestCase
   include Rack::Test::Methods
 
   def app
-    BroadcastMode::Agent.new
+    HealthMode::Agent.new
   end
 
   def test_index
@@ -16,7 +16,7 @@ class BroadcastModeTest < Test::Unit::TestCase
   end
 
   def test_load
-    BroadcastMode::LoadMetric.stubs(:get_system_metrics).returns("0.18 0.14 0.10 1/419 6130")
+    HealthMode::LoadMetric.stubs(:get_system_metrics).returns("0.18 0.14 0.10 1/419 6130")
     get "/load.json"
     load_average = JSON.parse last_response.body
     assert_equal load_average["load_one"], 0.18
@@ -25,7 +25,7 @@ class BroadcastModeTest < Test::Unit::TestCase
   end
 
   def test_memory
-    BroadcastMode::MemoryMetric.stubs(:get_system_metrics).returns <<-sys_output
+    HealthMode::MemoryMetric.stubs(:get_system_metrics).returns <<-sys_output
              total       used       free     shared    buffers     cached
 Mem:       2004104    1887516     116588          0     419368     669652
 -/+ buffers/cache:     798496    1205608
@@ -44,7 +44,7 @@ Swap:            0          0          0
   end
 
   def test_swap
-    BroadcastMode::SwapMetric.stubs(:get_system_metrics).returns <<-sys_output
+    HealthMode::SwapMetric.stubs(:get_system_metrics).returns <<-sys_output
              total       used       free     shared    buffers     cached
 Mem:       2004104    1887516     116588          0     419368     669652
 -/+ buffers/cache:     798496    1205608
@@ -58,7 +58,7 @@ Swap:            0          0          0
   end
 
   def test_disk_usage
-    BroadcastMode::DiskSpaceMetric.stubs(:get_system_metrics).returns <<-sys_output
+    HealthMode::DiskSpaceMetric.stubs(:get_system_metrics).returns <<-sys_output
 Filesystem         1024-blocks      Used Available Capacity Mounted on
 /dev/sda2             19222656  15440068   2806052      85% /
 none                    995424       728    994696       1% /dev
@@ -77,7 +77,7 @@ total                221295776  96056396 114201328      46%
   end
 
   def test_number_of_users
-    BroadcastMode::UserMetric.stubs(:get_system_metrics).returns <<-sys_output
+    HealthMode::UserMetric.stubs(:get_system_metrics).returns <<-sys_output
 zan
 # users=10
     sys_output
@@ -87,7 +87,7 @@ zan
   end
 
   def test_cpu_stat
-    BroadcastMode::CPUMetric.stubs(:get_system_metrics).returns <<-sys_output
+    HealthMode::CPUMetric.stubs(:get_system_metrics).returns <<-sys_output
 Linux 2.6.38-12-generic (zan-thinkpad)  25/11/2011      _i686_  (2 CPU)
 
 avg-cpu:  %user   %nice %system %iowait  %steal   %idle
@@ -104,7 +104,7 @@ avg-cpu:  %user   %nice %system %iowait  %steal   %idle
   end
 
   def test_disk_io_stat
-    BroadcastMode::DiskIOMetric.stubs(:get_system_metrics).returns <<-sys_output
+    HealthMode::DiskIOMetric.stubs(:get_system_metrics).returns <<-sys_output
 Linux 2.6.38-12-generic (zan-thinkpad)  25/11/2011      _i686_  (2 CPU)
 
 Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
@@ -119,7 +119,7 @@ sda              22.43       765.02        65.49    1055856      90384
   end
 
   def test_processes
-    BroadcastMode::ProcessMetric.stubs(:get_system_metrics).returns("0.18 0.14 0.10 1/419 6130")
+    HealthMode::ProcessMetric.stubs(:get_system_metrics).returns("0.18 0.14 0.10 1/419 6130")
     get "/process.json"
     process_usage = JSON.parse last_response.body
     assert_equal process_usage["proc_run"], 1
@@ -127,7 +127,7 @@ sda              22.43       765.02        65.49    1055856      90384
   end
 
   def test_network_io
-    BroadcastMode::NetworkIOMetric.stubs(:get_previous_system_metrics).returns <<-sys_output
+    HealthMode::NetworkIOMetric.stubs(:get_previous_system_metrics).returns <<-sys_output
 Inter-|   Receive                                                |  Transmit
  face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
     lo:  430741    2815    0    0    0     0          0         0   430741    2815    0    0    0     0       0          0
@@ -135,7 +135,7 @@ Inter-|   Receive                                                |  Transmit
  wlan0: 212395394  173050    0    0    0     0          0         0 15434201  120532    0    0    0     0       0          0
     sys_output
 
-    BroadcastMode::NetworkIOMetric.stubs(:get_current_system_metrics).returns <<-sys_output
+    HealthMode::NetworkIOMetric.stubs(:get_current_system_metrics).returns <<-sys_output
 Inter-|   Receive                                                |  Transmit
  face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
     lo:  430746    2815    0    0    0     0          0         0   430741    2815    0    0    0     0       0          0
@@ -151,11 +151,11 @@ Inter-|   Receive                                                |  Transmit
   end
 
   def test_authentication
-    BroadcastMode::Authentication.stubs(:from_authorized_host?).returns(true)
+    HealthMode::Authentication.stubs(:from_authorized_host?).returns(true)
     get "/"
     assert_not_equal last_response.body, 'Unauthorized request'
 
-    BroadcastMode::Authentication.stubs(:from_authorized_host?).returns(false)
+    HealthMode::Authentication.stubs(:from_authorized_host?).returns(false)
     get "/"
     assert_equal last_response.body, 'Unauthorized request'
   end

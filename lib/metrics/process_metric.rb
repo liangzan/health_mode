@@ -1,5 +1,5 @@
-module BroadcastMode
-  class ProcessMetric < BroadcastMode::Metric
+module HealthMode
+  class ProcessMetric < HealthMode::Metric
     class << self
       attr_accessor :system_metrics,
       :proc_run,

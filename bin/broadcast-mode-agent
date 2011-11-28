@@ -1,8 +1,0 @@
-#!/usr/bin/env ruby
-
-require "rubygems"
-require "bundler/setup"
-require File.expand_path(File.dirname(__FILE__) + '/../lib/broadcast_mode')
-require 'vegas'
-
-Vegas::Runner.new(BroadcastMode::Agent, 'broadcast-mode-agent')

@@ -1,5 +1,5 @@
-module BroadcastMode
-  class DiskSpaceMetric < BroadcastMode::Metric
+module HealthMode
+  class DiskSpaceMetric < HealthMode::Metric
     class << self
       attr_accessor :system_metrics,
       :total_disk_space,

@@ -1,6 +1,6 @@
 require 'socket'
 
-module BroadcastMode
+module HealthMode
   module Authentication
     HOST = 'localhost'
 

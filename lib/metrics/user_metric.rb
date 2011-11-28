@@ -1,5 +1,5 @@
-module BroadcastMode
-  class UserMetric < BroadcastMode::Metric
+module HealthMode
+  class UserMetric < HealthMode::Metric
     class << self
       attr_accessor :system_metrics,
       :users_num

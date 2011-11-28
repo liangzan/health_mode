@@ -1,5 +1,5 @@
-module BroadcastMode
-  class MemoryMetric < BroadcastMode::Metric
+module HealthMode
+  class MemoryMetric < HealthMode::Metric
     class << self
       attr_accessor :system_metrics,
       :total_memory,
