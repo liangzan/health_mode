@@ -5,4 +5,9 @@ require "bundler/setup"
 require File.expand_path(File.dirname(__FILE__) + '/../lib/health_mode')
 require 'vegas'
 
-Vegas::Runner.new(HealthMode::Agent, 'health-mode-agent')
+Vegas::Runner.new(HealthMode::Agent, 'health-mode-agent') do |runner, opts, app|
+  opts.on('-a HOSTNAME', "--authorized-host HOSTNAME", "set the host allowed to access the server") { |auth_host|
+    runner.logger.info "Authorizing connections from '#{auth_host}'"
+    HealthMode::Authentication.set_authorized_host auth_host
+  }
+end
