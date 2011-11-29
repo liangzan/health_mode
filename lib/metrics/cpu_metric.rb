@@ -6,8 +6,9 @@ module HealthMode
       :cpu_nice,
       :cpu_system,
       :cpu_iowait,
-      :cpu_steal,
-      :cpu_idle
+      :cpu_irq,
+      :cpu_idle,
+      :cpu_softirq
 
       def current_state
         refresh_state
@@ -16,8 +17,9 @@ module HealthMode
           "cpu_nice" => @cpu_nice,
           "cpu_system" => @cpu_system,
           "cpu_iowait" => @cpu_iowait,
-          "cpu_steal" => @cpu_steal,
-          "cpu_idle" => @cpu_idle
+          "cpu_irq" => @cpu_irq,
+          "cpu_idle" => @cpu_idle,
+          "cpu_softirq" => @cpu_softirq
         }
       end
 
@@ -29,7 +31,7 @@ module HealthMode
       end
 
       def get_system_metrics
-        `iostat -c`
+        `cat /proc/stat`
       end
 
       def set_system_metrics
@@ -37,17 +39,23 @@ module HealthMode
       end
 
       def metrics_regexp
-        /\s+(\d+\.\d+)\s+(\d+\.\d+)\s+(\d+\.\d+)\s+(\d+\.\d+)\s+(\d+\.\d+)\s+(\d+\.\d+)/
+        /cpu\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/
       end
 
       def match_system_metrics
         metrics_match = metrics_regexp.match(@system_metrics)
-        @cpu_user = metrics_match[1].to_f
-        @cpu_nice = metrics_match[2].to_f
-        @cpu_system = metrics_match[3].to_f
-        @cpu_iowait = metrics_match[4].to_f
-        @cpu_steal = metrics_match[5].to_f
-        @cpu_idle = metrics_match[6].to_f
+        total = (1..6).map { |index| metrics_match[index].to_f }.reduce(:+)
+        @cpu_user = percentage_cpu_time(metrics_match[1], total)
+        @cpu_nice = percentage_cpu_time(metrics_match[2], total)
+        @cpu_system = percentage_cpu_time(metrics_match[3], total)
+        @cpu_idle = percentage_cpu_time(metrics_match[4], total)
+        @cpu_iowait = percentage_cpu_time(metrics_match[5], total)
+        @cpu_irq = percentage_cpu_time(metrics_match[6], total)
+        @cpu_softirq = percentage_cpu_time(metrics_match[7], total)
+      end
+
+      def percentage_cpu_time(num, denom)
+        (num.to_f / denom.to_f * 100.0).round(2)
       end
     end
   end

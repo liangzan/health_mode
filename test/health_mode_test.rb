@@ -88,19 +88,27 @@ zan
 
   def test_cpu_stat
     HealthMode::CPUMetric.stubs(:get_system_metrics).returns <<-sys_output
-Linux 2.6.38-12-generic (zan-thinkpad)  25/11/2011      _i686_  (2 CPU)
-
-avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-          11.48    0.32    4.38    6.02    0.00   77.80
+cpu  40201 1327 14358 233796 20558 8 230 0 0 0
+cpu0 19402 620 7456 117510 10136 4 115 0 0 0
+cpu1 20798 706 6901 116286 10422 3 114 0 0 0
+intr 2373672 1158643 2805 0 0 0 0 0 0 1 2318 0 0 245 0 36062 0 8201 22 0 4 0 394 0 36 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 47 207 114893 183486 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ctxt 4329537
+btime 1322526863
+processes 4468
+procs_running 1
+procs_blocked 0
+softirq 638959 1 193943 38 2262 36164 1 156031 64861 418 185240
     sys_output
     get "/cpu.json"
+    # 310478
     cpu_usage = JSON.parse last_response.body
-    assert_equal cpu_usage["cpu_user"], 11.48
-    assert_equal cpu_usage["cpu_nice"], 0.32
-    assert_equal cpu_usage["cpu_system"], 4.38
-    assert_equal cpu_usage["cpu_iowait"], 6.02
-    assert_equal cpu_usage["cpu_steal"], 0.00
-    assert_equal cpu_usage["cpu_idle"], 77.80
+    assert_equal cpu_usage["cpu_user"], 12.96
+    assert_equal cpu_usage["cpu_nice"], 0.43
+    assert_equal cpu_usage["cpu_system"], 4.63
+    assert_equal cpu_usage["cpu_idle"], 75.36
+    assert_equal cpu_usage["cpu_iowait"], 6.63
+    assert_equal cpu_usage["cpu_irq"], 0.00
+    assert_equal cpu_usage["cpu_softirq"], 0.07
   end
 
   def test_disk_io_stat
