@@ -10,4 +10,9 @@ Vegas::Runner.new(HealthMode::Agent, 'health-mode-agent') do |runner, opts, app|
     runner.logger.info "Authorizing connections from '#{auth_host}'"
     HealthMode::Authentication.set_authorized_host auth_host
   }
+
+  opts.on('-u', "--public", "allows the public to access") { |auth_host|
+    runner.logger.info "Allowing connections from public"
+    HealthMode::Authentication.set_public_access
+  }
 end
