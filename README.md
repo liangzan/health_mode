@@ -23,6 +23,8 @@ Health mode can be ran directly from the command line.
     # see all the command line options
     health-mode-agent -h
 
+Visit http://127.0.0.1:5678 to view the embedded server.
+
 ### Security
 
 By default, health mode only allows requests from localhost. If you have a trusted host, let health mode accept requests from it
