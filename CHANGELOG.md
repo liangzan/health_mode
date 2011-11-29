@@ -22,3 +22,9 @@ Shifing to use modular style
 
 Changed the name from broadcast mode to health mode
 Able to set authorized host via command line options
+
+## 0.1.3 (29 Nov 2011)
+
+Added the public option
+Tested against centos, ubuntu
+Published into a gem

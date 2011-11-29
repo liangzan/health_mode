@@ -1,11 +1,8 @@
 source 'http://rubygems.org'
 
-gem 'sinatra'
-gem 'json'
-gem 'thin'
-gem 'vegas'
+gemspec
 
 group :test do
-  gem 'rack-test'
-  gem 'mocha'
+  gem 'rack-test', '~>0.6.1'
+  gem 'mocha', '~>0.10.0'
 end
