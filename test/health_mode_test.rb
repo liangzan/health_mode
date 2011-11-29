@@ -111,21 +111,6 @@ softirq 638959 1 193943 38 2262 36164 1 156031 64861 418 185240
     assert_equal cpu_usage["cpu_softirq"], 0.07
   end
 
-  def test_disk_io_stat
-    HealthMode::DiskIOMetric.stubs(:get_system_metrics).returns <<-sys_output
-Linux 2.6.38-12-generic (zan-thinkpad)  25/11/2011      _i686_  (2 CPU)
-
-Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
-sda              22.43       765.02        65.49    1055856      90384
-    sys_output
-    get "/disk_io.json"
-    disk_io_usage = JSON.parse last_response.body
-    assert_equal disk_io_usage["disk_read_per_s"], 765.02
-    assert_equal disk_io_usage["disk_write_per_s"], 65.49
-    assert_equal disk_io_usage["disk_read"], 1055856
-    assert_equal disk_io_usage["disk_write"], 90384
-  end
-
   def test_processes
     HealthMode::ProcessMetric.stubs(:get_system_metrics).returns("0.18 0.14 0.10 1/419 6130")
     get "/process.json"
