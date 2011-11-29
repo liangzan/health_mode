@@ -44,7 +44,7 @@ module HealthMode
 
       def match_system_metrics
         metrics_match = metrics_regexp.match(@system_metrics)
-        total = (1..6).map { |index| metrics_match[index].to_f }.reduce(:+)
+        total = (1..6).map { |index| metrics_match[index].to_i }.reduce(:+)
         @cpu_user = percentage_cpu_time(metrics_match[1], total)
         @cpu_nice = percentage_cpu_time(metrics_match[2], total)
         @cpu_system = percentage_cpu_time(metrics_match[3], total)
