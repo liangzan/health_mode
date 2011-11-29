@@ -66,14 +66,13 @@ none                   1002052      1096   1000956       1% /dev/shm
 none                   1002052       132   1001920       1% /var/run
 none                   1002052         0   1002052       0% /var/lock
 /dev/sda4            198071540  80614372 107395652      43% /home
-total                221295776  96056396 114201328      46%
     sys_output
     get "/disk_space.json"
     disk_usage = JSON.parse last_response.body
     assert_equal disk_usage["disk_total"], 221295776
     assert_equal disk_usage["disk_used"], 96056396
     assert_equal disk_usage["disk_free"], 114201328
-    assert_equal disk_usage["disk_percentage_capacity"], 46
+    assert_equal disk_usage["disk_used_percentage"], 43
   end
 
   def test_number_of_users
