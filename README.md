@@ -1,10 +1,10 @@
 # Health Mode
 
-Health mode is a tiny Sinatra app that provides an API interface to the system metrics. System metrics such as system load, disk space, and memory are exposed. This makes it easy to integrate with other web services such as twitter or twilio.
+Health mode is a embedded Sinatra app that provides an API interface to the system metrics. System metrics such as system load, disk space, and memory are exposed. This makes it easy to integrate with other web services such as twitter or twilio.
 
 ## Installation
 
-  gem install health_mode
+    gem install health_mode
 
 ## Dependencies
 
@@ -14,26 +14,26 @@ Health mode is meant to be ran on a Linux server. It has been tested on Ubuntu a
 
 Health mode can be ran directly from the command line.
 
-  # runs the Sinatra app on the default port 5678
-  health-mode-agent
+    # runs the Sinatra app on the default port 5678
+    health-mode-agent
 
-  # sets the port to 4567
-  health-mode-agent -p 4567
+    # sets the port to 4567
+    health-mode-agent -p 4567
 
-  # see all the command line options
-  health-mode-agent -h
+    # see all the command line options
+    health-mode-agent -h
 
 ### Security
 
 By default, health mode only allows requests from localhost. If you have a trusted host, let health mode accept requests from it
 
-  # stating an authorized host
-  health-mode-agent -a foo.com
+    # stating an authorized host
+    health-mode-agent -a foo.com
 
 Or for debugging purposes, you may want to accept all requests
 
-  # accept requests from public
-  health-mode-agent -u
+    # accept requests from public
+    health-mode-agent -u
 
 ## Note on Patches/Pull Requests
 
