@@ -20,10 +20,24 @@ Health mode can be ran directly from the command line.
     # sets the port to 4567
     health-mode-agent -p 4567
 
+    # kill the server
+    health-mode-agent -K
+
     # see all the command line options
     health-mode-agent -h
 
 Visit http://127.0.0.1:5678 to view the embedded server.
+
+### File descriptor error
+
+You may see this message when you run with the default options
+
+    Couldn't get a file descriptor referring to the console
+
+It is ok to ignore it. If you want to get rid of it, just use the -L option
+
+    # preventing the file descriptor error message from appearing
+    health-mode-agent -L
 
 ### Security
 
